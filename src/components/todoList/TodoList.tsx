@@ -3,9 +3,10 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Todo } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { todosSelector } from "../../redux/selectors";
-import { initializeTodos } from "../../redux/actions";
+import { initializeTodosAction, addTodoAction } from "../../redux/actions";
 
 const API_ADDRESS = "https://jsonplaceholder.typicode.com/todos";
+const TODOS_PER_PAGE = 20;
 
 const StyledPaper = styled(Paper)(() => ({
   display: "flex",
@@ -17,11 +18,10 @@ const StyledPaper = styled(Paper)(() => ({
 }));
 
 export const TodoList = () => {
-  const [todoListItems, setTodoListItems] = useState<Todo[]>([]);
   const [page, setPage] = useState(1);
   const [text, setText] = useState("");
   const dispatch = useAppDispatch();
-  const todosItems = useAppSelector(todosSelector);
+  const todos = useAppSelector(todosSelector).slice(0, page * TODOS_PER_PAGE);
   const observer = useRef<IntersectionObserver>();
   const theme = useTheme();
 
@@ -29,39 +29,38 @@ export const TodoList = () => {
     const fetchTodosFromAPI = async () => {
       const response = await fetch(API_ADDRESS);
       const data: Todo[] = await response.json();
-      dispatch(initializeTodos(data));
-      setTodoListItems(data.slice(0, 2));
+      dispatch(initializeTodosAction(data));
     };
 
     fetchTodosFromAPI();
   }, [dispatch]);
 
-  const lastTodoRef = useCallback(
-    (elem: HTMLImageElement) => {
-      // if (isLoading) return;
+  const lastTodoRef = useCallback((elem: HTMLImageElement) => {
+    if (observer.current) observer.current.disconnect();
 
-      if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        // Get the next page if we can see the last element on the screen
+        if (entries[0].isIntersecting) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      },
+      { rootMargin: "150px" }
+    );
 
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          // Get the next page if we can see the last element on the screen
-          if (entries[0].isIntersecting) {
-            setPage((prevPage) => prevPage + 1);
-            setTodoListItems(todosItems.slice(0, page * 20));
-          }
-        },
-        { rootMargin: "150px" }
-      );
-
-      if (elem) observer.current.observe(elem);
-    },
-    [page, todosItems]
-  );
+    if (elem) observer.current.observe(elem);
+  }, []);
 
   const handleOnChangeText = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value),
     []
   );
+
+  const addTodo = useCallback(() => {
+    if (text) {
+      dispatch(addTodoAction(text));
+    }
+  }, [dispatch, text]);
 
   return (
     <StyledPaper>
@@ -86,15 +85,16 @@ export const TodoList = () => {
             multiline
             fullWidth
           />
-          <Button variant="contained" style={{ width: "20%" }}>
+          <Button
+            variant="contained"
+            onClick={addTodo}
+            style={{ width: "20%" }}
+          >
             Add!
           </Button>
         </Box>
-        {todoListItems.map(({ id, title }, index) => (
-          <h1
-            key={id}
-            ref={todoListItems.length === index + 1 ? lastTodoRef : null}
-          >
+        {todos.map(({ id, title }, index) => (
+          <h1 key={id} ref={todos.length === index + 1 ? lastTodoRef : null}>
             {title}
           </h1>
         ))}
