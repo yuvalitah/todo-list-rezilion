@@ -1,6 +1,6 @@
 import { Todo } from "../../types";
-import { TodoListActionTypes } from "./ActionTypes";
-import { TODO_ACTIONS } from "./Actions";
+import { TodoListActionTypes, TodoListFilterActionTypes } from "./ActionTypes";
+import { TODO_ACTIONS, TODO_LIST_FILTER_ACTIONS } from "./Actions";
 
 export const initializeTodosAction = (todos: Todo[]): TodoListActionTypes => ({
   type: TODO_ACTIONS.INITIALIZE_TODOS,
@@ -22,7 +22,7 @@ export const toggleTodoAction = (id: number): TodoListActionTypes => ({
   payload: id,
 });
 
-export const changeTodoTextAction = ({
+export const changeTodoTitleAction = ({
   id,
   title,
 }: {
@@ -34,4 +34,11 @@ export const changeTodoTextAction = ({
     id,
     title,
   },
+});
+
+export const changeTodoListFilterAction = (
+  filter: string
+): TodoListFilterActionTypes => ({
+  type: TODO_LIST_FILTER_ACTIONS.CHANGE_FILTER,
+  payload: filter,
 });

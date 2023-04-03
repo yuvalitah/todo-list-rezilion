@@ -1,4 +1,4 @@
-import { TODO_ACTIONS } from "./Actions";
+import { TODO_ACTIONS, TODO_LIST_FILTER_ACTIONS } from "./Actions";
 import { Todo } from "../../types";
 
 interface IInitializeTodosAction {
@@ -29,9 +29,16 @@ interface IChangeTodoTitletAction {
   };
 }
 
+interface IChangeTodoListFilterAction {
+  type: typeof TODO_LIST_FILTER_ACTIONS.CHANGE_FILTER;
+  payload: string;
+}
+
 export type TodoListActionTypes =
   | IInitializeTodosAction
   | IAddTodoAction
   | IDeleteTodoAction
   | IToggleTodoAction
   | IChangeTodoTitletAction;
+
+export type TodoListFilterActionTypes = IChangeTodoListFilterAction;

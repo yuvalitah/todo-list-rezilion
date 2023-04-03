@@ -1,9 +1,10 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import { TodoListReducer } from "../redux/reducers/TodoListReducer";
+import { TodoListReducer, TodoListFilterReducer } from "../redux/reducers";
 
 export const store = configureStore({
   reducer: {
     TodoListReducer,
+    TodoListFilterReducer,
   },
 });
 
