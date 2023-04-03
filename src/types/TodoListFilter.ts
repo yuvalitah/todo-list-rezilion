@@ -1,5 +1,11 @@
-export const TodoListFilter = {
+export interface ITodoListFilters {
+  All: string;
+  Completed: string;
+  InCompleted: string;
+}
+
+export const TodoListFilters: ITodoListFilters = {
   All: "All",
-  completed: "completed",
-  inCompleted: "inCompleted",
+  Completed: "completed",
+  InCompleted: "inCompleted",
 };

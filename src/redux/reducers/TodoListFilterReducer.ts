@@ -1,5 +1,5 @@
 import { TODO_LIST_FILTER_ACTIONS } from "../actions";
-import { TodoListFilter } from "../../types";
+import { TodoListFilters } from "../../types";
 import { AnyAction } from "@reduxjs/toolkit";
 
 interface ITodoListFilterState {
@@ -7,7 +7,7 @@ interface ITodoListFilterState {
 }
 
 const initialState: ITodoListFilterState = {
-  filter: TodoListFilter.All,
+  filter: TodoListFilters.All,
 };
 
 export const TodoListFilterReducer = (
