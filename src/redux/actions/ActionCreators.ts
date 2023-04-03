@@ -24,14 +24,14 @@ export const toggleTodoAction = (id: number): TodoListActionTypes => ({
 
 export const changeTodoTextAction = ({
   id,
-  text,
+  title,
 }: {
   id: number;
-  text: string;
+  title: string;
 }): TodoListActionTypes => ({
-  type: TODO_ACTIONS.CHANGE_TODO_TEXT,
+  type: TODO_ACTIONS.CHANGE_TODO_TITLE,
   payload: {
     id,
-    text,
+    title,
   },
 });

@@ -21,11 +21,11 @@ interface IToggleTodoAction {
   payload: number;
 }
 
-interface IChangeTodoTextAction {
-  type: typeof TODO_ACTIONS.CHANGE_TODO_TEXT;
+interface IChangeTodoTitletAction {
+  type: typeof TODO_ACTIONS.CHANGE_TODO_TITLE;
   payload: {
     id: number;
-    text: string;
+    title: string;
   };
 }
 
@@ -34,4 +34,4 @@ export type TodoListActionTypes =
   | IAddTodoAction
   | IDeleteTodoAction
   | IToggleTodoAction
-  | IChangeTodoTextAction;
+  | IChangeTodoTitletAction;

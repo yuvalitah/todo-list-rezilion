@@ -57,12 +57,12 @@ export const TodoListReducer = (
         ),
       };
 
-    case TODO_ACTIONS.CHANGE_TODO_TEXT:
+    case TODO_ACTIONS.CHANGE_TODO_TITLE:
       return {
         ...state,
         todos: state.todos.map((todo) =>
           todo.id === action.payload.id
-            ? { ...todo, text: action.payload.text }
+            ? { ...todo, title: action.payload.title }
             : todo
         ),
       };
