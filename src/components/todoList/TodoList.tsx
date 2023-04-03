@@ -1,9 +1,9 @@
-import { styled, Paper, TextField, Box, Button, useTheme } from "@mui/material";
+import { styled, Paper, Box, useTheme } from "@mui/material";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Todo } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { todosSelector } from "../../redux/selectors";
-import { initializeTodosAction, addTodoAction } from "../../redux/actions";
+import { initializeTodosAction } from "../../redux/actions";
 import { TodoItem } from "../todoItem";
 import { TodoListInput } from "../todoListInput";
 
