@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { todosSelector } from "../../redux/selectors";
 import { initializeTodosAction, addTodoAction } from "../../redux/actions";
 import { TodoItem } from "../todoItem";
+import { TodoListInput } from "../todoListInput";
 
 const API_ADDRESS = "https://jsonplaceholder.typicode.com/todos";
 const TODOS_PER_PAGE = 20;
@@ -20,7 +21,6 @@ const StyledPaper = styled(Paper)(() => ({
 
 export const TodoList = () => {
   const [page, setPage] = useState(1);
-  const [title, setTitle] = useState("");
   const dispatch = useAppDispatch();
   const todos = useAppSelector(todosSelector).slice(0, page * TODOS_PER_PAGE);
   const observer = useRef<IntersectionObserver>();
@@ -52,51 +52,18 @@ export const TodoList = () => {
     if (elem) observer.current.observe(elem);
   }, []);
 
-  const handleOnChangeTitle = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) =>
-      setTitle(event.target.value),
-    []
-  );
-
-  const addTodo = useCallback(() => {
-    if (title) {
-      dispatch(addTodoAction(title));
-    }
-  }, [dispatch, title]);
-
   return (
     <StyledPaper>
       <Box
         width="90%"
+        height="100%"
         display="flex"
         flexDirection="column"
         mt={5}
         sx={{ mx: theme.breakpoints.down("md") ? theme.spacing(5) : 0 }}
         gap={5}
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap={2}
-          width="100%"
-        >
-          <TextField
-            label="Add new Todo here..."
-            value={title}
-            onChange={handleOnChangeTitle}
-            maxRows={3}
-            multiline
-            fullWidth
-          />
-          <Button
-            variant="contained"
-            onClick={addTodo}
-            style={{ width: "20%" }}
-          >
-            Add!
-          </Button>
-        </Box>
+        <TodoListInput />
         <Box display="flex" flexDirection="column" gap={4}>
           {todos.map((todo, index) => (
             <TodoItem
