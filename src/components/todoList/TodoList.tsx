@@ -4,6 +4,7 @@ import { Todo } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { todosSelector } from "../../redux/selectors";
 import { initializeTodosAction, addTodoAction } from "../../redux/actions";
+import { TodoItem } from "../todoItem";
 
 const API_ADDRESS = "https://jsonplaceholder.typicode.com/todos";
 const TODOS_PER_PAGE = 20;
@@ -19,7 +20,7 @@ const StyledPaper = styled(Paper)(() => ({
 
 export const TodoList = () => {
   const [page, setPage] = useState(1);
-  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
   const dispatch = useAppDispatch();
   const todos = useAppSelector(todosSelector).slice(0, page * TODOS_PER_PAGE);
   const observer = useRef<IntersectionObserver>();
@@ -35,7 +36,7 @@ export const TodoList = () => {
     fetchTodosFromAPI();
   }, [dispatch]);
 
-  const lastTodoRef = useCallback((elem: HTMLImageElement) => {
+  const lastTodoRef = useCallback((elem: HTMLHeadingElement) => {
     if (observer.current) observer.current.disconnect();
 
     observer.current = new IntersectionObserver(
@@ -51,24 +52,27 @@ export const TodoList = () => {
     if (elem) observer.current.observe(elem);
   }, []);
 
-  const handleOnChangeText = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value),
+  const handleOnChangeTitle = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) =>
+      setTitle(event.target.value),
     []
   );
 
   const addTodo = useCallback(() => {
-    if (text) {
-      dispatch(addTodoAction(text));
+    if (title) {
+      dispatch(addTodoAction(title));
     }
-  }, [dispatch, text]);
+  }, [dispatch, title]);
 
   return (
     <StyledPaper>
       <Box
+        width="90%"
         display="flex"
         flexDirection="column"
         mt={5}
         sx={{ mx: theme.breakpoints.down("md") ? theme.spacing(5) : 0 }}
+        gap={5}
       >
         <Box
           display="flex"
@@ -79,8 +83,8 @@ export const TodoList = () => {
         >
           <TextField
             label="Add new Todo here..."
-            value={text}
-            onChange={handleOnChangeText}
+            value={title}
+            onChange={handleOnChangeTitle}
             maxRows={3}
             multiline
             fullWidth
@@ -93,11 +97,15 @@ export const TodoList = () => {
             Add!
           </Button>
         </Box>
-        {todos.map(({ id, title }, index) => (
-          <h1 key={id} ref={todos.length === index + 1 ? lastTodoRef : null}>
-            {title}
-          </h1>
-        ))}
+        <Box display="flex" flexDirection="column" gap={4}>
+          {todos.map((todo, index) => (
+            <TodoItem
+              key={todo.id}
+              todoRef={todos.length === index + 1 ? lastTodoRef : undefined}
+              todo={todo}
+            />
+          ))}
+        </Box>
       </Box>
     </StyledPaper>
   );
