@@ -21,3 +21,17 @@ export const toggleTodoAction = (id: number): TodoListActionTypes => ({
   type: TODO_ACTIONS.TOGGLE_TODO,
   payload: id,
 });
+
+export const changeTodoTextAction = ({
+  id,
+  text,
+}: {
+  id: number;
+  text: string;
+}): TodoListActionTypes => ({
+  type: TODO_ACTIONS.CHANGE_TODO_TEXT,
+  payload: {
+    id,
+    text,
+  },
+});
