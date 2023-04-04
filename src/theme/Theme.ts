@@ -15,5 +15,21 @@ export const createTheme = (mode: PaletteMode) =>
           },
         },
       },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            "&.Mui-selected": {
+              color: mode === "light" ? "#FFFFFF" : "#90caf9",
+            },
+          },
+        },
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            backgroundColor: mode === "light" ? "#FFFFFF" : "#90caf9",
+          },
+        },
+      },
     },
   });
