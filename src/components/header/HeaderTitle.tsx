@@ -5,7 +5,7 @@ export const HeaderTitle = () => (
   <Box
     display="flex"
     alignItems="center"
-    sx={{ display: { xs: "none", sm: "flex" } }}
+    sx={{ display: { xs: "none", md: "flex" } }}
   >
     <Typography variant="h4" ml={3} noWrap>
       Todo List App!

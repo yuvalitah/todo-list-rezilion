@@ -2,6 +2,7 @@ import React from "react";
 import { Drawer as MuiDrawer, Divider, Box } from "@mui/material";
 import { DrawerTitle } from "./DrawerTitle";
 import { ThemeToggle } from "../themeToggle";
+import { DrawerList } from "./drawerList";
 
 interface IDrawerProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export const Drawer = ({ isOpen, handleDrawerToggle }: IDrawerProps) => (
     <Box display="flex" flexDirection="column" textAlign="center" flex={1}>
       <DrawerTitle closeDrawer={handleDrawerToggle} />
       <Divider />
+      <DrawerList />
     </Box>
     <ThemeToggle />
   </MuiDrawer>

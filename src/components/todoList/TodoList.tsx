@@ -1,8 +1,14 @@
 import { styled, Paper, Box, useTheme } from "@mui/material";
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Todo } from "../../types";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
+import { Todo, TodoListFilters } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { todosSelector } from "../../redux/selectors";
+import { todoListFilterSelector, todosSelector } from "../../redux/selectors";
 import { initializeTodosAction } from "../../redux/actions";
 import { TodoItem } from "../todoItem";
 import { TodoListInput } from "../todoListInput";
@@ -19,10 +25,31 @@ const StyledPaper = styled(Paper)(() => ({
   borderRadius: 0,
 }));
 
+const getFilteredTodos = (todos: Todo[], activeFilter: string): Todo[] => {
+  switch (activeFilter) {
+    case TodoListFilters.All:
+      return todos;
+
+    case TodoListFilters.Completed:
+      return todos.filter((todo) => todo.completed);
+
+    case TodoListFilters.InCompleted:
+      return todos.filter((todo) => !todo.completed);
+
+    default:
+      return todos;
+  }
+};
+
 export const TodoList = () => {
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
   const todos = useAppSelector(todosSelector).slice(0, page * TODOS_PER_PAGE);
+  const activeFilter = useAppSelector(todoListFilterSelector);
+  const filteredTodos = useMemo(
+    () => getFilteredTodos(todos, activeFilter),
+    [activeFilter, todos]
+  );
   const observer = useRef<IntersectionObserver>();
   const theme = useTheme();
 
@@ -65,7 +92,7 @@ export const TodoList = () => {
       >
         <TodoListInput />
         <Box display="flex" flexDirection="column" gap={4}>
-          {todos.map((todo, index) => (
+          {filteredTodos.map((todo, index) => (
             <TodoItem
               key={todo.id}
               todoRef={todos.length === index + 1 ? lastTodoRef : undefined}
