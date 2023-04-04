@@ -19,6 +19,7 @@ export const TodoListInput = () => {
     if (title) {
       dispatch(addTodoAction(title));
       openSnackbar("New Todo has been added!", "success");
+      setTitle("");
     }
   }, [dispatch, title, openSnackbar]);
 
