@@ -1,4 +1,4 @@
-import { styled, Paper, Box, useTheme } from "@mui/material";
+import { styled, Paper, Box, useTheme, CircularProgress } from "@mui/material";
 import React, {
   useState,
   useEffect,
@@ -43,6 +43,7 @@ const getFilteredTodos = (todos: Todo[], activeFilter: string): Todo[] => {
 
 export const TodoList = () => {
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const todos = useAppSelector(todosSelector).slice(0, page * TODOS_PER_PAGE);
   const activeFilter = useAppSelector(todoListFilterSelector);
@@ -55,29 +56,36 @@ export const TodoList = () => {
 
   useEffect(() => {
     const fetchTodosFromAPI = async () => {
+      setIsLoading(true);
       const response = await fetch(API_ADDRESS);
       const data: Todo[] = await response.json();
       dispatch(initializeTodosAction(data));
+      setIsLoading(false);
     };
 
     fetchTodosFromAPI();
   }, [dispatch]);
 
-  const lastTodoRef = useCallback((elem: HTMLHeadingElement) => {
-    if (observer.current) observer.current.disconnect();
+  const lastTodoRef = useCallback(
+    (elem: HTMLHeadingElement) => {
+      if (isLoading) return;
 
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        // Get the next page if we can see the last element on the screen
-        if (entries[0].isIntersecting) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      },
-      { rootMargin: "150px" }
-    );
+      if (observer.current) observer.current.disconnect();
 
-    if (elem) observer.current.observe(elem);
-  }, []);
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          // Get the next page if we can see the last element on the screen
+          if (entries[0].isIntersecting) {
+            setPage((prevPage) => prevPage + 1);
+          }
+        },
+        { rootMargin: "150px" }
+      );
+
+      if (elem) observer.current.observe(elem);
+    },
+    [isLoading]
+  );
 
   return (
     <StyledPaper>
@@ -91,15 +99,21 @@ export const TodoList = () => {
         gap={5}
       >
         <TodoListInput />
-        <Box display="flex" flexDirection="column" gap={4}>
-          {filteredTodos.map((todo, index) => (
-            <TodoItem
-              key={todo.id}
-              todoRef={todos.length === index + 1 ? lastTodoRef : undefined}
-              todo={todo}
-            />
-          ))}
-        </Box>
+        {isLoading ? (
+          <Box display="flex" justifyContent="center" mt={2}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box display="flex" flexDirection="column" gap={4}>
+            {filteredTodos.map((todo, index) => (
+              <TodoItem
+                key={todo.id}
+                todoRef={todos.length === index + 1 ? lastTodoRef : undefined}
+                todo={todo}
+              />
+            ))}
+          </Box>
+        )}
       </Box>
     </StyledPaper>
   );
