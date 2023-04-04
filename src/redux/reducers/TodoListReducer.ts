@@ -26,7 +26,7 @@ export const TodoListReducer = (
     case TODO_ACTIONS.INITIALIZE_TODOS:
       return {
         ...state,
-        todos: action.payload.reverse(),
+        todos: state.todos.concat(action.payload.reverse()),
       };
 
     case TODO_ACTIONS.ADD_TODO:
