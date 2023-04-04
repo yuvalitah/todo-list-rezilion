@@ -6,6 +6,6 @@ export interface ITodoListFilters {
 
 export const TodoListFilters: ITodoListFilters = {
   All: "All",
-  Completed: "completed",
-  InCompleted: "inCompleted",
+  Completed: "Completed",
+  InCompleted: "Incompleted",
 };
