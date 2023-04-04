@@ -2,10 +2,12 @@ import React, { useCallback, useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { addTodoAction } from "../../redux/actions";
 import { Box, Button, TextField } from "@mui/material";
+import { useSnackbar } from "../../hooks";
 
 export const TodoListInput = () => {
   const [title, setTitle] = useState("");
   const dispatch = useAppDispatch();
+  const { openSnackbar } = useSnackbar();
 
   const handleOnChangeTitle = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -16,8 +18,9 @@ export const TodoListInput = () => {
   const addTodo = useCallback(() => {
     if (title) {
       dispatch(addTodoAction(title));
+      openSnackbar("New Todo has been added!", "success");
     }
-  }, [dispatch, title]);
+  }, [dispatch, title, openSnackbar]);
 
   return (
     <Box

@@ -15,6 +15,7 @@ import {
   deleteTodoAction,
   toggleTodoAction,
 } from "../../redux/actions";
+import { useSnackbar } from "../../hooks";
 
 interface ITodoProps {
   todo: Todo;
@@ -29,6 +30,7 @@ export const TodoItem = ({
   const [isGrowAnimationActive, setIsGrowAnimationActive] = useState(true);
   const [todoTitle, setTodoTitle] = useState(title);
   const dispatch = useAppDispatch();
+  const { openSnackbar } = useSnackbar();
 
   const handleOnChangeTitle = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +49,7 @@ export const TodoItem = ({
   const deleteTodo = () => {
     setIsGrowAnimationActive(false);
     setTimeout(() => dispatch(deleteTodoAction(id)), 500);
+    openSnackbar("The Todo has been deleted from the list", "error");
   };
 
   return (
@@ -65,7 +68,7 @@ export const TodoItem = ({
         ) : (
           <Typography
             width="100%"
-            variant="h5"
+            variant="body1"
             ref={todoRef}
             onClick={() => setIsEditMode(true)}
             sx={{

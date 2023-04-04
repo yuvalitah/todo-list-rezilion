@@ -1,13 +1,15 @@
 import React from "react";
 import { Header } from "./components";
-import { ThemeProvider } from "./context";
+import { SnackbarProvider, ThemeProvider } from "./context";
 import { TodoList } from "./components/todoList";
 
 const App = () => {
   return (
     <ThemeProvider>
-      <Header />
-      <TodoList />
+      <SnackbarProvider>
+        <Header />
+        <TodoList />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };
