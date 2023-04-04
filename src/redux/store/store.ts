@@ -4,7 +4,7 @@ import {
   Action,
   combineReducers,
 } from "@reduxjs/toolkit";
-import { TodoListReducer, TodoListFilterReducer } from "../redux/reducers";
+import { TodoListReducer, TodoListFilterReducer } from "../reducers";
 import {
   FLUSH,
   PAUSE,

@@ -7,7 +7,7 @@ import React, {
   useMemo,
 } from "react";
 import { Todo, TodoListFilters } from "../../types";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { todoListFilterSelector, todosSelector } from "../../redux/selectors";
 import { initializeTodosAction } from "../../redux/actions";
 import { TodoItem } from "../todoItem";

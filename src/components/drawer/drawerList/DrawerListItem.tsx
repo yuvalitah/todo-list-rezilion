@@ -1,6 +1,6 @@
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 import React, { useEffect } from "react";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch } from "../../../hooks";
 import { changeTodoListFilterAction } from "../../../redux/actions";
 
 interface IDrawerListItem {

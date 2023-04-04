@@ -9,13 +9,12 @@ import {
   Grow,
 } from "@mui/material";
 import { Todo } from "../../types";
-import { useAppDispatch } from "../../app/hooks";
 import {
   changeTodoTitleAction,
   deleteTodoAction,
   toggleTodoAction,
 } from "../../redux/actions";
-import { useSnackbar } from "../../hooks";
+import { useSnackbar, useAppDispatch } from "../../hooks";
 
 interface ITodoProps {
   todo: Todo;

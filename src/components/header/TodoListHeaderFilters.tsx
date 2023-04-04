@@ -1,7 +1,7 @@
 import { Tab, Tabs } from "@mui/material";
 import React from "react";
 import { ITodoListFilters, TodoListFilters } from "../../types";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch } from "../../hooks";
 import { changeTodoListFilterAction } from "../../redux/actions";
 
 interface ITodoListHeaderFilters {
