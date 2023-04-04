@@ -14,7 +14,7 @@ import { TodoItem } from "../todoItem";
 import { TodoListInput } from "../todoListInput";
 
 const API_ADDRESS = "https://jsonplaceholder.typicode.com/todos";
-const TODOS_PER_PAGE = 20;
+const TODOS_PER_PAGE = 15;
 
 const StyledPaper = styled(Paper)(() => ({
   display: "flex",
