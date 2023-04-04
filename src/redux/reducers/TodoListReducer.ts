@@ -26,7 +26,11 @@ export const TodoListReducer = (
     case TODO_ACTIONS.INITIALIZE_TODOS:
       return {
         ...state,
-        todos: state.todos.concat(action.payload.reverse()),
+
+        // We need to filter all the todos above id 200 because we don't want to have multiple items with the same id from the API.
+        todos: state.todos
+          .filter((todo) => todo.id > 200)
+          .concat(action.payload.reverse()),
       };
 
     case TODO_ACTIONS.ADD_TODO:
