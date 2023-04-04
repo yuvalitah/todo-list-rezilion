@@ -7,9 +7,14 @@ import { DrawerList } from "./drawerList";
 interface IDrawerProps {
   isOpen: boolean;
   handleDrawerToggle: () => void;
+  changeSelectedFilter: (newActiveFilterIndex: number) => void;
 }
 
-export const Drawer = ({ isOpen, handleDrawerToggle }: IDrawerProps) => (
+export const Drawer = ({
+  isOpen,
+  handleDrawerToggle,
+  changeSelectedFilter,
+}: IDrawerProps) => (
   <MuiDrawer
     variant="temporary"
     open={isOpen}
@@ -21,7 +26,7 @@ export const Drawer = ({ isOpen, handleDrawerToggle }: IDrawerProps) => (
     <Box display="flex" flexDirection="column" textAlign="center" flex={1}>
       <DrawerTitle closeDrawer={handleDrawerToggle} />
       <Divider />
-      <DrawerList />
+      <DrawerList changeSelectedFilter={changeSelectedFilter} />
     </Box>
     <ThemeToggle />
   </MuiDrawer>

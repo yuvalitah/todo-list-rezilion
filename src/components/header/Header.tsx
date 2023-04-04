@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Box, Toolbar } from "@mui/material";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import { HeaderTitle } from "./HeaderTitle";
@@ -8,6 +8,22 @@ import { TodoListHeaderFilters } from "./TodoListHeaderFilters";
 
 export const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeFilterIndex, setActiveFilterIndex] = useState(
+    localStorage.getItem("activeFilterIndex") || 0
+  );
+
+  useEffect(() => {
+    if (!localStorage.getItem("activeFilterIndex")) {
+      localStorage.setItem("activeFilterIndex", "0");
+    }
+
+    setActiveFilterIndex(localStorage.getItem("activeFilterIndex") || 0);
+  }, []);
+
+  const changeSelectedFilter = (newActiveFilterIndex: number) => {
+    setActiveFilterIndex(newActiveFilterIndex);
+    localStorage.setItem("activeFilterIndex", newActiveFilterIndex.toString());
+  };
 
   const handleDrawerToggle = () =>
     setIsDrawerOpen((prevIsDrawerOpen) => !prevIsDrawerOpen);
@@ -39,13 +55,17 @@ export const Header = () => {
           >
             <DrawerIcon handleDrawerToggle={handleDrawerToggle} />
           </Box>
-          <TodoListHeaderFilters />
+          <TodoListHeaderFilters
+            activeFilterIndex={+activeFilterIndex}
+            changeSelectedFilter={changeSelectedFilter}
+          />
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <ThemeToggle />
           </Box>
           <Drawer
             isOpen={isDrawerOpen}
             handleDrawerToggle={handleDrawerToggle}
+            changeSelectedFilter={changeSelectedFilter}
           />
         </Box>
       </Toolbar>

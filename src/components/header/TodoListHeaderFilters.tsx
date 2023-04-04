@@ -1,18 +1,25 @@
 import { Tab, Tabs } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import { ITodoListFilters, TodoListFilters } from "../../types";
 import { useAppDispatch } from "../../app/hooks";
 import { changeTodoListFilterAction } from "../../redux/actions";
 
-export const TodoListHeaderFilters = () => {
+interface ITodoListHeaderFilters {
+  activeFilterIndex: number;
+  changeSelectedFilter: (newActiveFilterIndex: number) => void;
+}
+
+export const TodoListHeaderFilters = ({
+  activeFilterIndex,
+  changeSelectedFilter,
+}: ITodoListHeaderFilters) => {
   const dispatch = useAppDispatch();
-  const [activeFilterIndex, setActiveFilterIndex] = useState(0);
 
   return (
     <Tabs
-      value={activeFilterIndex}
-      onChange={(_, newActiveFilterIndex) =>
-        setActiveFilterIndex(newActiveFilterIndex)
+      value={+activeFilterIndex}
+      onChange={(_, newActiveFilterIndex: number) =>
+        changeSelectedFilter(newActiveFilterIndex)
       }
       sx={{ display: { xs: "none", sm: "flex" }, mt: 1 }}
     >

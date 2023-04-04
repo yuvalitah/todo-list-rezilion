@@ -1,13 +1,22 @@
 import React from "react";
 import { List } from "@mui/material";
-import { TodoListFilters } from "../../../types";
+import { ITodoListFilters, TodoListFilters } from "../../../types";
 import { DrawerListItem } from "./DrawerListItem";
 
-export const DrawerList = () => {
+interface IDrawerList {
+  changeSelectedFilter: (newActiveFilterIndex: number) => void;
+}
+
+export const DrawerList = ({ changeSelectedFilter }: IDrawerList) => {
   return (
     <List>
-      {Object.keys(TodoListFilters).map((filter) => (
-        <DrawerListItem key={filter} title={filter} />
+      {Object.keys(TodoListFilters).map((filter, index) => (
+        <DrawerListItem
+          key={filter}
+          title={TodoListFilters[filter as keyof ITodoListFilters]}
+          filterIndex={index}
+          changeSelectedFilter={changeSelectedFilter}
+        />
       ))}
     </List>
   );
