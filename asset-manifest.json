@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/todo-list-rezilion/static/css/main.cd548def.css",
+    "main.js": "/todo-list-rezilion/static/js/main.7917f749.js",
+    "index.html": "/todo-list-rezilion/index.html",
+    "main.cd548def.css.map": "/todo-list-rezilion/static/css/main.cd548def.css.map",
+    "main.7917f749.js.map": "/todo-list-rezilion/static/js/main.7917f749.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cd548def.css",
+    "static/js/main.7917f749.js"
+  ]
+}
