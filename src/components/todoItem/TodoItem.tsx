@@ -39,7 +39,7 @@ export const TodoItem = ({
   );
 
   const saveTodoTitle = () => {
-    if (todoTitle && isEditMode) {
+    if (todoTitle) {
       dispatch(changeTodoTitleAction({ id, title: todoTitle }));
       setIsEditMode(false);
     }
