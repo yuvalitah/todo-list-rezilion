@@ -39,7 +39,7 @@ export const TodoItem = ({
   );
 
   const saveTodoTitle = () => {
-    if (todoTitle) {
+    if (todoTitle && isEditMode) {
       dispatch(changeTodoTitleAction({ id, title: todoTitle }));
       setIsEditMode(false);
     }
@@ -47,8 +47,10 @@ export const TodoItem = ({
 
   const deleteTodo = () => {
     setIsGrowAnimationActive(false);
-    setTimeout(() => dispatch(deleteTodoAction(id)), 500);
-    openSnackbar("The Todo has been deleted from the list", "error");
+    setTimeout(() => {
+      dispatch(deleteTodoAction(id));
+      openSnackbar("The Todo has been deleted from the list", "error");
+    }, 500);
   };
 
   return (
