@@ -108,7 +108,9 @@ export const TodoList = () => {
             {filteredTodos.map((todo, index) => (
               <TodoItem
                 key={todo.id}
-                todoRef={todos.length === index + 1 ? lastTodoRef : undefined}
+                todoRef={
+                  filteredTodos.length === index + 1 ? lastTodoRef : undefined
+                }
                 todo={todo}
               />
             ))}
